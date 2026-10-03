@@ -1,0 +1,444 @@
+/* ==========================================================================
+   AppSwether · styles.css
+   Metodología: BEM (bloque__elemento--modificador) · Mobile-first
+   Estructura: 1 Tokens · 2 Base · 3 Utilidades · 4 Bloques · 5 Responsive
+   ========================================================================== */
+
+@import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap");
+
+/* 1. TOKENS --------------------------------------------------------------
+   Paleta: mármol, azul egeo, oliva, oro envejecido y barro de ánfora. */
+:root {
+  --color-marble: #ecebe4;
+  --color-marble-light: #f6f5f0;
+  --color-aegean: #1d4e6b;
+  --color-aegean-dark: #12354a;
+  --color-olive: #6f7a4c;
+  --color-gold: #a8873f;
+  --color-clay: #9c4a32;
+  --color-ink: #2b2a27;
+
+  --font-display: "Cinzel", "Trajan Pro", Georgia, serif;
+  --font-body: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+
+  --border-greek: 3px double var(--color-gold);
+  --container: 72rem;
+
+  /* Greca (meandro) como imagen SVG embebida, repetible en horizontal */
+  --meander: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='12' viewBox='0 0 24 12'%3E%3Cpath d='M0 11H9V2H2V8H6V5H15V11H24' fill='none' stroke='%23a8873f' stroke-width='1.5'/%3E%3C/svg%3E");
+}
+
+/* 2. BASE ---------------------------------------------------------------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 4rem; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--color-ink);
+  background: var(--color-marble);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  color: var(--color-aegean-dark);
+  margin: 0;
+}
+
+img, iframe { max-width: 100%; display: block; }
+a { color: var(--color-aegean); text-underline-offset: 0.2em; }
+a:hover { color: var(--color-clay); }
+
+:focus-visible { outline: 3px solid var(--color-clay); outline-offset: 2px; }
+
+/* 3. UTILIDADES / COMPONENTES COMPARTIDOS --------------------------------- */
+.divider {
+  flex-basis: 100%;
+  height: 12px;
+  margin: 0;
+  border: 0;
+  background: var(--meander) repeat-x center;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: var(--space-3);
+}
+.section-title::after {            /* línea dorada decorativa bajo el título */
+  content: "";
+  display: block;
+  width: 5rem;
+  height: 2px;
+  margin: var(--space-1) auto 0;
+  background: var(--color-gold);
+}
+
+.btn {
+  font: 600 1rem var(--font-display);
+  letter-spacing: 0.08em;
+  padding: 0.6rem 1.4rem;
+  color: var(--color-marble-light);
+  background: var(--color-aegean);
+  border: var(--border-greek);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+.btn:hover { background: var(--color-clay); }
+
+/* Campos de formulario compartidos por todos los bloques */
+.welcome-form__input,
+.comment-form__input,
+.comment-form__textarea,
+.suscripcion__input {
+  font: inherit;
+  padding: 0.55rem 0.8rem;
+  color: var(--color-ink);
+  background: var(--color-marble-light);
+  border: 1px solid var(--color-gold);
+  border-radius: 0;
+}
+
+/* 4. BLOQUES -------------------------------------------------------------- */
+
+/* --- Cabecera --- */
+.site-header {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-2) calc(var(--space-4) + 12px);
+  text-align: center;
+  background: var(--color-marble-light);
+}
+.site-header::after {              /* friso de greca al pie de la cabecera */
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 12px;
+  background: var(--meander) repeat-x center;
+}
+.site-header__brand { display: grid; justify-items: center; }
+.site-header__title { font-size: clamp(2rem, 7vw, 3.5rem); }
+.site-header__acronym {
+  font-family: var(--font-display);
+  letter-spacing: 0.4em;
+  color: var(--color-gold);
+  text-decoration: none;
+}
+.site-header__logo {
+  width: 7rem;
+  height: 7rem;
+  object-fit: cover;
+  border-radius: 50%;
+  border: var(--border-greek);
+}
+.site-header__welcome { font-size: 1.4rem; color: var(--color-olive); }
+
+.welcome-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-1);
+  width: 100%;
+  max-width: 34rem;
+}
+.welcome-form__label { flex-basis: 100%; font-style: italic; }
+.welcome-form__input { flex: 1 1 12rem; }
+
+/* --- Navegación (fija arriba al hacer scroll) --- */
+.main-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-1) var(--space-3);
+  padding: 0.8rem var(--space-2);
+  background: var(--color-aegean-dark);
+}
+.main-nav__link {
+  font-family: var(--font-display);
+  letter-spacing: 0.1em;
+  color: var(--color-marble-light);
+  text-decoration: none;
+  padding-bottom: 2px;
+  border-bottom: 2px solid transparent;
+}
+.main-nav__link:hover { color: var(--color-marble-light); border-color: var(--color-gold); }
+
+/* --- Barra de descuentos didáctica ------------------------------------------
+   Idea: un "ticker" que enseña al cliente DÓNDE mirar.
+   1) El texto se desplaza de derecha a izquierda (movimiento = atención).
+   2) <em> se subraya con una ola dorada (señala la palabra clave).
+   3) <strong> late como un sello (señala la acción/estado).
+   4) Al pasar el cursor se pausa: el usuario controla la lectura.
+   5) Con "reducir movimiento" activo, el texto queda quieto y centrado. */
+.promo-bar {
+  overflow: hidden;
+  padding: 0.7rem 0;
+  color: var(--color-marble-light);
+  background: var(--color-clay);
+  border-block: var(--border-greek);
+}
+.promo-bar__text {
+  display: inline-block;
+  margin: 0;
+  padding-left: 100%;              /* arranca fuera de la pantalla */
+  white-space: nowrap;
+  font-family: var(--font-display);
+  letter-spacing: 0.08em;
+  animation: promo-scroll 16s linear infinite;
+}
+.promo-bar:hover .promo-bar__text { animation-play-state: paused; }
+.promo-bar__highlight {
+  font-style: normal;
+  text-decoration: underline wavy var(--color-gold);
+  text-underline-offset: 0.3em;
+}
+.promo-bar__badge {
+  display: inline-block;
+  padding: 0 0.7rem;
+  color: var(--color-ink);
+  background: var(--color-gold);
+  animation: promo-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes promo-scroll { to { transform: translateX(-100%); } }
+@keyframes promo-pulse  { 50% { transform: scale(1.12); } }
+
+/* --- Contenido principal: flex-wrap, cada hijo ocupa el 100% por defecto --- */
+.main-content {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-2) var(--space-4);
+}
+.main-content > * { flex: 1 1 100%; min-width: 0; }
+
+.main-content__intro {
+  text-align: center;
+  font-size: 1.5rem;
+  font-style: italic;
+}
+.main-content__external-link { text-align: center; font-family: var(--font-display); }
+.main-content__banner {
+  flex: 1 1 18rem;
+  width: 100%;
+  max-height: 26rem;
+  object-fit: cover;
+  border: var(--border-greek);
+}
+
+/* --- Remates y proveedores --- */
+.offers,
+.suppliers {
+  flex: 1 1 18rem;
+  padding: var(--space-3);
+  background: var(--color-marble-light);
+  border: var(--border-greek);
+}
+.offers__list { margin: 0; padding: 0; list-style: none; }
+.offers__item {
+  padding: var(--space-1) 0 var(--space-1) 1.6rem;
+  border-bottom: 1px solid var(--color-gold);
+  background: radial-gradient(circle, var(--color-olive) 3px, transparent 4px) no-repeat 0.2rem center;
+}
+.offers__item:last-child { border-bottom: 0; }
+.suppliers { display: flex; flex-direction: column; gap: var(--space-1); }
+.suppliers__text { margin: 0; }
+
+/* --- Tabla de productos (scroll horizontal propio en móvil) --- */
+.table-section__card { overflow-x: auto; border: var(--border-greek); background: var(--color-marble-light); }
+.product-table { width: 100%; min-width: 30rem; border-collapse: collapse; text-align: left; }
+.product-table th {
+  font-family: var(--font-display);
+  color: var(--color-marble-light);
+  background: var(--color-aegean);
+}
+.product-table th,
+.product-table td { padding: var(--space-1) var(--space-2); border-bottom: 1px solid var(--color-gold); vertical-align: middle; }
+.product-table__img { width: 5rem; height: 5rem; object-fit: cover; }
+
+/* --- Catálogo: rejilla que decide sola cuántas columnas caben --- */
+.catalog {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--space-3);
+}
+.product-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-marble-light);
+  border: var(--border-greek);
+}
+.product-card__figure { display: contents; }   /* el <figure> no rompe la columna */
+.product-card__img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-bottom: var(--border-greek);
+}
+.product-card__body { padding: var(--space-1) var(--space-2); }
+.product-card__title { font-size: 1.2rem; }
+.product-card__brand { color: var(--color-olive); }
+.product-card__price { margin: 0; font-weight: 600; color: var(--color-clay); }
+.product-card__desc { margin: 0; }
+
+/* --- Historia, reseñas, suscripción --- */
+.story,
+.reviews,
+.suscripcion,
+.sucursales {
+  padding: var(--space-3) var(--space-2);
+  background: var(--color-marble-light);
+  border: var(--border-greek);
+}
+.story__text { max-width: 65ch; margin: 0 auto var(--space-2); text-align: justify; hyphens: auto; }
+
+.review { margin-bottom: var(--space-2); }
+.review__quote { margin: 0; padding-left: var(--space-2); border-left: 4px solid var(--color-olive); }
+.review__text { margin: 0; font-style: italic; }
+.review__author { font-family: var(--font-display); font-size: 0.95rem; color: var(--color-aegean); }
+.reviews__form-title { margin: var(--space-3) 0 var(--space-2); }
+
+.comment-form { display: grid; gap: var(--space-2); max-width: 36rem; }
+.comment-form__field { display: grid; gap: 0.25rem; }
+.comment-form__textarea { min-height: 7rem; resize: vertical; }
+.comment-form .btn { justify-self: start; }
+
+.suscripcion__form { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-1); }
+.suscripcion__label { flex-basis: 100%; text-align: center; }
+.suscripcion__input { flex: 1 1 14rem; max-width: 24rem; }
+
+/* --- Sucursales --- */
+.sucursales { display: grid; gap: var(--space-3); }
+.sucursales .section-title { margin-bottom: 0; }
+.sucursal__title { margin-bottom: 0.25rem; }
+.sucursal__address { margin-bottom: var(--space-1); font-style: normal; }
+.sucursal__map { width: 100%; border: var(--border-greek) !important; } /* pisa style="border:0" inline del HTML */
+
+/* --- Pie de página --- */
+.site-footer { padding: var(--space-3) var(--space-2); text-align: center; color: var(--color-marble-light); background: var(--color-aegean-dark); }
+.site-footer__text { max-width: 50rem; margin: 0 auto; }
+.site-footer__address { display: block; font-style: normal; font-family: var(--font-display); color: var(--color-gold); }
+
+/* 5. RESPONSIVE (mobile-first: sólo se añade lo que crece) ------------------ */
+@media (min-width: 40em) {                     /* ≥ 640px */
+  .site-header { grid-template-columns: 1fr; }
+  .section-title { font-size: 1.9rem; }
+  .story,
+  .reviews,
+  .suscripcion,
+  .sucursales { padding: var(--space-4); }
+}
+
+@media (min-width: 64em) {                     /* ≥ 1024px */
+  .sucursales { grid-template-columns: repeat(3, 1fr); }
+  .sucursales .section-title { grid-column: 1 / -1; }
+  .reviews { display: grid; grid-template-columns: repeat(3, 1fr); column-gap: var(--space-3); }
+  .reviews .section-title,
+  .reviews__form-title,
+  .comment-form { grid-column: 1 / -1; }
+}
+
+/* Accesibilidad: respeta "reducir movimiento" */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .promo-bar__text { padding-left: 0; white-space: normal; text-align: center; animation: none; }
+  .promo-bar__badge { animation: none; }
+}
+
+/* ==========================================================================
+   6. SECCIONES NUEVAS (añadidas al final; no modifican reglas anteriores)
+   how-it-works · faq · contact
+   ========================================================================== */
+
+.how-it-works,
+.faq,
+.contact {
+  padding: var(--space-3) var(--space-2);
+  background: var(--color-marble-light);
+  border: var(--border-greek);
+}
+
+/* --- Cómo funciona: pasos numerados con letras griegas (α, β, γ) --- */
+.how-it-works__steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+.how-it-works__step { counter-increment: step; text-align: center; }
+.how-it-works__step::before {
+  content: counter(step, lower-greek);
+  display: grid;
+  place-items: center;
+  width: 3.2rem;
+  height: 3.2rem;
+  margin: 0 auto var(--space-1);
+  font: 700 1.5rem var(--font-display);
+  color: var(--color-marble-light);
+  background: var(--color-aegean);
+  border: var(--border-greek);
+  border-radius: 50%;
+}
+.how-it-works__title { font-size: 1.15rem; margin-bottom: 0.25rem; }
+.how-it-works__text { margin: 0; }
+.how-it-works__notice {
+  max-width: 48rem;
+  margin: var(--space-3) auto 0;
+  padding-left: var(--space-2);
+  border-left: 4px solid var(--color-olive);
+  font-style: italic;
+}
+.how-it-works__notice-text { margin: 0; }
+
+/* --- Preguntas frecuentes: <details> nativo, sin JavaScript --- */
+.faq__item { max-width: 48rem; margin: 0 auto; border-bottom: 1px solid var(--color-gold); }
+.faq__question {
+  padding: var(--space-2) 0;
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
+  color: var(--color-aegean-dark);
+  cursor: pointer;
+}
+.faq__item[open] .faq__question { color: var(--color-clay); }
+.faq__answer { margin: 0 0 var(--space-2); }
+
+/* --- Contacto --- */
+.contact { text-align: center; }
+.contact__address {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-1) var(--space-3);
+  font-style: normal;
+  font-family: var(--font-display);
+}
+.contact__hours { margin: var(--space-2) 0 0; font-style: italic; }
+
+@media (min-width: 40em) {
+  .how-it-works,
+  .faq,
+  .contact { padding: var(--space-4); }
+}
